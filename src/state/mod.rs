@@ -1,14 +1,31 @@
+use std::clone::Clone;
+
+#[derive(Clone)]
 pub struct State {
-    pub states: Vec<u16>,
+    pub states: [u16;9],
     pub active: u16,
 }
 
 impl State {
+    pub fn new() -> State {
+        State {
+            states: [1,2,3,4,5,6,7,8,9],
+            active: 0,
+        }
+    }
+
+    pub fn states(&self) -> Option<[u16;9]> {
+        match self.states.len() {
+            0 => None,
+            _ => Some(self.states),
+        }
+    }
+
     pub fn active(&self) -> u16 {
         self.active
     }
 }
-
+/*
 impl IntoIterator for State {
     type Item = u16;
     type IntoIter = StateIntoIterator;
@@ -85,3 +102,4 @@ impl<'a> Iterator for StateIterator<'a> {
         Some(result)
     }
 }
+*/
