@@ -11,8 +11,5 @@ fn main() {
         println!("{}",element);
     }
 
-    println!("\nNumber of States: {}",cell.states()
-        .expect("No States Available!")
-        .len()
-    );
+    println!("\nNumber of States: {}",cell.possible());
 }

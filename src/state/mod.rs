@@ -9,7 +9,7 @@ pub struct State {
 impl State {
     pub fn new() -> State {
         State {
-            states: [0,2,3,4,5,6,7,8,9],
+            states: [1,2,3,4,5,6,7,8,9],
             active: 0,
         }
     }
@@ -25,7 +25,6 @@ impl State {
         self.active
     }
 
-    //Also returns 9 for some reason :/
     pub fn possible(&self) -> u16 {
         self.states.iter()
             .filter(|&n| *n != 0)
