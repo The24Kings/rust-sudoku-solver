@@ -9,13 +9,13 @@ pub struct State {
 impl State {
     pub fn new() -> State {
         State {
-            states: [1,2,3,4,5,6,7,8,9],
+            states: [0,2,3,4,5,6,7,8,9],
             active: 0,
         }
     }
 
     pub fn states(&self) -> Option<[u16;9]> {
-        match self.states.len() {
+        match self.possible() {
             0 => None,
             _ => Some(self.states),
         }
@@ -23,6 +23,16 @@ impl State {
 
     pub fn active(&self) -> u16 {
         self.active
+    }
+
+    //Also returns 9 for some reason :/
+    pub fn possible(&self) -> u16 {
+        self.states.iter()
+            .filter(|&n| *n != 0)
+            .count()
+            .try_into()
+            .unwrap()
+
     }
 }
 /*
