@@ -1,6 +1,6 @@
-use std::clone::Clone;
+//use std::clone::Clone;
 
-#[derive(Clone)]
+//#[derive(Clone)]
 pub struct State {
     pub states: [u16;9],
     pub active: u16,
