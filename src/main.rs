@@ -10,4 +10,9 @@ fn main() {
     for element in cell.states().into_iter() {
         println!("{:?}",element);
     }
+
+    println!("Number of States: {}",cell.states()
+        .expect("No States Available!")
+        .len()
+    );
 }
