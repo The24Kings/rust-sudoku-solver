@@ -6,7 +6,7 @@ mod board;
 
 fn main() {
     let mut board = Board::new();
-    let cell = State::new();
+    let mut cell = State::new();
 
     println!("{}\n",cell.active());
 
@@ -15,7 +15,14 @@ fn main() {
     }
 
     println!("\nNumber of States: {}",cell.len());
-    
+    println!("{}",cell.remove(8));
+    println!("{}",cell.pop().unwrap());
+    println!("\nNumber of States after removal: {}",cell.len());
+
+    for element in cell.states().iter() {
+        println!("{}",element);
+    }
+
     /*
     for state in board.board.iter() {
         println!("{}",state.active());
@@ -25,7 +32,6 @@ fn main() {
     board.cell(1).activate(3);
     board.activate(2,4);
 
-    println!("{}",board.cell(1).active());
+    println!("\n{}",board.cell(1).active());
     println!("{}",board.cell(2).active());
-
 }

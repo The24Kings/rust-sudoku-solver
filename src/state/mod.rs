@@ -12,7 +12,7 @@ impl State {
         }
     }
 
-    pub fn states(&self) -> Vec<u16> {
+    pub fn states(&mut self) -> Vec<u16> {
         self.states.clone()
     }
 
@@ -26,6 +26,14 @@ impl State {
     
     pub fn activate(&mut self, num: u16) {
         self.active = num;
+    }
+
+    pub fn remove(&mut self, index: usize) -> u16 {
+        self.states.remove(index)
+    }
+
+    pub fn pop(&mut self) -> Option<u16> {
+        self.states.pop()
     }
 }
 /*
