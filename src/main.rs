@@ -17,15 +17,16 @@ fn main() {
         println!("{}",element);
     }
 
-    println!("\nNumber of States: {}",cell.len());
-    println!("{}",cell.remove(8));
-    println!("{}",cell.pop().unwrap());
-    println!("\nNumber of States after removal: {}",cell.len());
+    println!("\nStates: {:?}",cell.states());
+    println!("Number of States: {}",cell.len());
+    
+    println!("\nRemoved: {}",cell.remove(8));
+    println!("Popped: {}",cell.pop().unwrap());
+    
+    println!("\nStates: {:?}",cell.states());
+    println!("Number of States: {}",cell.len());
 
-    for element in cell.states().iter() {
-        println!("{}",element);
-    }
-
+    
     /*
     for state in board.board.iter() {
         println!("{}",state.active());
@@ -44,8 +45,11 @@ fn main() {
     guesses.push(7);
     guesses.push(9);
 
-    println!("{:?}",guesses);
+    println!("\n{:?}",guesses);
+
     println!("\nPopped: {}",guesses.pop().unwrap());
     println!("Last: {}",guesses.peek().unwrap());
+    
+    println!("\n{:?}",guesses);
 
 }

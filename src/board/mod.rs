@@ -1,6 +1,6 @@
 use crate::state::State;
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct Board {
     pub board: Vec<State>,
 }

@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct State {
     pub states: Vec<u16>,
     pub active: u16,
