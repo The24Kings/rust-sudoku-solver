@@ -23,7 +23,10 @@ impl State {
     pub fn len(&self) -> usize {
         self.states.len()
     }
-
+    
+    pub fn activate(&mut self, num: u16) {
+        self.active = num;
+    }
 }
 /*
 impl IntoIterator for State {

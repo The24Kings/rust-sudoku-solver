@@ -5,7 +5,7 @@ mod state;
 mod board;
 
 fn main() {
-    let board = Board::new();
+    let mut board = Board::new();
     let cell = State::new();
 
     println!("{}\n",cell.active());
@@ -15,9 +15,17 @@ fn main() {
     }
 
     println!("\nNumber of States: {}",cell.len());
-
+    
+    /*
     for state in board.board.iter() {
         println!("{}",state.active());
     }
+    */
+
+    board.cell(1).activate(3);
+    board.activate(2,4);
+
+    println!("{}",board.cell(1).active());
+    println!("{}",board.cell(2).active());
 
 }
