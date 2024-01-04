@@ -6,7 +6,7 @@ pub struct Board {
 }
 
 impl Board {
-    pub fn new() -> Board {
+    pub fn new() -> Self {
         let mut new_board = vec!();
 
         for _ in 0..81 {
