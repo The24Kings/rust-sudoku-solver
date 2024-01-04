@@ -1,38 +1,28 @@
-//use std::clone::Clone;
-
-//#[derive(Clone)]
 pub struct State {
-    pub states: [u16;9],
+    pub states: Vec<u16>,
     pub active: u16,
 }
 
 impl State {
     pub fn new() -> State {
         State {
-            states: [1,2,3,4,5,6,7,8,9],
+            states: vec!{1,2,3,4,5,6,7,8,9},
             active: 0,
         }
     }
 
-    pub fn states(&self) -> Option<[u16;9]> {
-        match self.possible() {
-            0 => None,
-            _ => Some(self.states),
-        }
+    pub fn states(&self) -> Vec<u16> {
+        self.states.clone()
     }
 
     pub fn active(&self) -> u16 {
         self.active
     }
 
-    pub fn possible(&self) -> u16 {
-        self.states.iter()
-            .filter(|&n| *n != 0)
-            .count()
-            .try_into()
-            .unwrap()
-
+    pub fn len(&self) -> usize {
+        self.states.len()
     }
+
 }
 /*
 impl IntoIterator for State {

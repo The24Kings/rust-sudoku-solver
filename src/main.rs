@@ -7,9 +7,9 @@ fn main() {
 
     println!("{}\n",cell.active());
 
-    for element in cell.states().unwrap_or([0;9]).iter() {
+    for element in cell.states().iter() {
         println!("{}",element);
     }
 
-    println!("\nNumber of States: {}",cell.possible());
+    println!("\nNumber of States: {}",cell.len());
 }
