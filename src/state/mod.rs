@@ -14,18 +14,12 @@ impl State {
         }
     }
 
-    pub fn states(&mut self) -> Vec<u16> {
+    pub fn states(&self) -> Vec<u16> {
         self.states.clone()
     }
 
     pub fn active(&self) -> u16 {
         self.active
-    }
-
-    pub fn confirm(&self, num: u16) {
-        self.states = vec!();
-        self.active = num;
-        self.known = true;
     }
 
     pub fn is_known(&self) -> bool {
@@ -39,6 +33,12 @@ impl State {
     
     pub fn activate(&mut self, num: u16) {
         self.active = num;
+    }
+    
+    pub fn confirm(&mut self, num: u16) {
+        self.states = vec!();
+        self.active = num;
+        self.known = true;
     }
 
     pub fn remove(&mut self, index: usize) -> u16 {

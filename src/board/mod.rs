@@ -34,7 +34,7 @@ impl Board {
         &mut self.board[index]
     }
     
-    pub fn confirm(&self, index: usize,  num: u16) {
+    pub fn confirm(&mut self, index: usize,  num: u16) {
         self.board[index].states = vec!();
         self.board[index].active = num;
         self.board[index].known = true;
@@ -83,7 +83,7 @@ impl Board {
     }
 
     pub fn is_known(&self, index: usize) -> bool {
-        self.board[index].known
+        self.board[index]
     }
 
     pub fn check(&self, num: u16, index: usize) -> bool {
