@@ -33,12 +33,21 @@ impl Board {
     pub fn cell(&mut self, index: usize) -> &mut State {
         &mut self.board[index]
     }
-    
+
+    pub fn confirm(&mut self, index: usize, num: u16) {
+        self.board[index] = State {
+            states: vec!(),
+            active: num,
+            known: true,
+        }
+    }
+/*    
     pub fn confirm(&mut self, index: usize,  num: u16) {
         self.board[index].states = vec!();
         self.board[index].active = num;
         self.board[index].known = true;
     }
+*/
 
     pub fn activate(&mut self, index: usize, num: u16) {
         self.board[index].active = num;
