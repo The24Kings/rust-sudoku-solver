@@ -83,7 +83,7 @@ impl Board {
     }
 
     pub fn is_known(&self, index: usize) -> bool {
-        self.board[index]
+        self.board[index].known
     }
 
     pub fn check(&self, num: u16, index: usize) -> bool {
