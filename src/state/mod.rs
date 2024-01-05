@@ -2,6 +2,7 @@
 pub struct State {
     pub states: Vec<u16>,
     pub active: u16,
+    pub known: bool,
 }
 
 impl State {
@@ -9,6 +10,7 @@ impl State {
         State {
             states: vec!{1,2,3,4,5,6,7,8,9},
             active: 0,
+            known: false,
         }
     }
 
@@ -18,6 +20,11 @@ impl State {
 
     pub fn active(&self) -> u16 {
         self.active
+    }
+
+    pub fn confirm(&self, num: u16) {
+        self.active = num;
+        self.known = true;
     }
 
     pub fn len(&self) -> usize {
