@@ -146,3 +146,9 @@ impl Board {
     }
 }
 
+impl Display for Board {
+    fn fmt(&self, f: %mut fmt::Formatter) -> fmt::Result {
+        //todo
+    }
+}
+
