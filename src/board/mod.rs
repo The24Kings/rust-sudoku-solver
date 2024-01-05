@@ -65,9 +65,16 @@ impl Board {
 
     pub fn group(&self, index: usize) -> Vec<&State> {
         let mut output: Vec<&State> = vec!();
-        let offset = index % 3;
+        let x_offset = index % 3;
+        let y_offset = (index / 9) % 3;
+        
+        println!("X Offset: {}",x_offset);
+        println!("Y Offset: {}",y_offset);
 
-        let mut corner = index - offset - (9 * offset);
+        // Panics
+        let mut corner = index - x_offset - y_offset;
+
+        println!("Corner @ {}",corner);
 
         for _i in 0..9 {
             if _i / 3 == 0 && _i != 0 {
@@ -77,6 +84,8 @@ impl Board {
             output.push(&self.board[corner]);
             
             corner += 1;
+
+            println!("Loop: {}",_i);
         }
 
         output
@@ -96,7 +105,8 @@ impl Board {
                 return false;
             }
         }
-
+        
+        println!("Row Success.");
         true
     }
 
@@ -106,7 +116,8 @@ impl Board {
                 return false;
             }
         }
-
+        
+        println!("Col Success.");
         true 
     }
 
@@ -117,6 +128,7 @@ impl Board {
             }
         } 
         
+        println!("Box Success.");
         true
     }
 }

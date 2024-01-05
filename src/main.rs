@@ -9,6 +9,8 @@ mod stack;
 fn main() {
     let mut game = Board::new();
 
+    //https://www.theguardian.com/lifeandstyle/2023/may/01/sudoku-6047-easy
+
     // Mock setup for testing
     game.confirm(1, 8);
     game.confirm(7, 3);
@@ -40,6 +42,8 @@ fn main() {
     game.confirm(77, 6);
     game.confirm(78, 5);
     game.confirm(80, 9);
+
+    println!("{}",game.check(35, 5));
 
     // Testing
 /*
