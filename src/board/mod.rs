@@ -30,7 +30,11 @@ impl Board {
         index / 9
     }
 */
-    pub fn cell(&mut self, index: usize) -> &mut State {
+    pub fn cell(&self, index: usize) -> &State {
+        &self.board[index]
+    }
+    
+    pub fn mut_cell(&mut self, index: usize) -> &mut State {
         &mut self.board[index]
     }
     
