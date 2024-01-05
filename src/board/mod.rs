@@ -82,6 +82,10 @@ impl Board {
         output
     }
 
+    pub fn is_known(&self, index: usize) -> bool {
+        self.board[index].known
+    }
+
     pub fn check(&self, num: u16, index: usize) -> bool {
         self.check_row(num, index) && self.check_col(num, index) && self.check_box(num, index)
     }

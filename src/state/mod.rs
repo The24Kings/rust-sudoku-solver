@@ -23,9 +23,15 @@ impl State {
     }
 
     pub fn confirm(&self, num: u16) {
+        self.states = vec!();
         self.active = num;
         self.known = true;
     }
+
+    pub fn is_known(&self) -> bool {
+        self.known
+    }
+ 
 
     pub fn len(&self) -> usize {
         self.states.len()
