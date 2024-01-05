@@ -57,14 +57,14 @@ impl Board {
         self.board[index].active = num;
     }
 
-    pub fn row(&self, index: usize) -> Vec<State> {
+    fn row(&self, index: usize) -> Vec<State> {
         let start = index % 9;
         let end = start + 9;
 
         self.board[start..end].to_vec()
     }
 
-    pub fn col(&self, index: usize) -> Vec<&State> {
+    fn col(&self, index: usize) -> Vec<&State> {
         let start = index / 9;
 
         let mut output: Vec<&State> = vec!();
@@ -76,7 +76,7 @@ impl Board {
         output
     }
 
-    pub fn group(&self, index: usize) -> Vec<&State> {
+    fn group(&self, index: usize) -> Vec<&State> {
         let mut output: Vec<&State> = vec!();
         let x_offset = index % 3;
         let y_offset = (index / 9) % 3;
@@ -112,7 +112,7 @@ impl Board {
         self.check_row(num, index) && self.check_col(num, index) && self.check_box(num, index)
     }
 
-    pub fn check_row(&self, num: u16, index: usize) -> bool {
+    fn check_row(&self, num: u16, index: usize) -> bool {
         for element in self.row(index) {
             if num == element.active() {
                 return false;
@@ -123,7 +123,7 @@ impl Board {
         true
     }
 
-    pub fn check_col(&self, num: u16, index: usize) -> bool {
+    fn check_col(&self, num: u16, index: usize) -> bool {
         for element in self.col(index) {
             if num == element.active() {
                 return false;
@@ -134,7 +134,7 @@ impl Board {
         true 
     }
 
-    pub fn check_box(&self, num: u16, index: usize) -> bool {
+    fn check_box(&self, num: u16, index: usize) -> bool {
         for element in self.group(index) {
             if num == element.active() {
                 return false;
