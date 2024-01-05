@@ -1,4 +1,5 @@
 use crate::state::State;
+use std::fmt;
 
 #[derive(Debug, Clone)]
 pub struct Board {
@@ -166,8 +167,8 @@ impl Board {
 
 }
 
-impl Display for Board {
-    fn fmt(&self, f: %mut fmt::Formatter) -> fmt::Result {
+impl fmt::Display for Board {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         //todo
     }
 }
