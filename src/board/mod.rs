@@ -144,6 +144,26 @@ impl Board {
         println!("Box Success.");
         true
     }
+
+    pub fn propagate(&mut self, index: usize, num: u16) {
+        self.update_row(index, num);
+        self.update_col(index, num);
+        self.update_box(index, num);
+    }
+
+    fn update_row(&mut self, index: usize, num: u16) {
+
+    
+    }
+    
+    fn update_col(&mut self, index: usize, num: u16) {
+
+    }
+
+    fn update_box(&mut self, index: usize, num: u16) {
+
+    }
+
 }
 
 impl Display for Board {
