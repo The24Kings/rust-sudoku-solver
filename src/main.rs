@@ -1,4 +1,5 @@
 use crate::state::State;
+use crate::board::Solution;
 use crate::board::Board;
 use crate::stack::Stack;
 
@@ -49,7 +50,10 @@ fn main() {
 
     println!("{}",game);
 
-    game.solve();
+    match game.solve() {
+        Solution::Solved => println!("Solved!"),
+        Solution::UnSolvable => println!("Unsolvable!"),
+    }
 
     println!("{}",game);
 

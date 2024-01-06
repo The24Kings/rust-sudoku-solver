@@ -28,15 +28,22 @@ impl Board {
         loop {
             // Check cells with only 1 State
             for _i in 0..81 {
-                let state = self.cell(_i);
+                let state = self.board[_i].clone();
 
                 if state.is_known() { continue; }
 
                 if state.len() != 1 { continue; }
 
-                println!("Confirming {} at {}",state.active(),_i);
+                if !self.check(state.active(), _i) {
+                    return Solution::UnSolvable;
+                }
 
-                self.confirm(_i, state.states()[0]);
+                // If the State is valid, confirm it
+                if state.active() != 0 {
+                    self.confirm(_i, state.active());
+                } else {
+                    self.confirm(_i, state.states()[0]);
+                }
             }
 
             break; // Testing
@@ -158,60 +165,110 @@ impl Board {
         true
     }
 
+    // TODO: Not updating correctly, sometime not removing the correct State
     fn update_row(&mut self, index: usize, num: u16) {
-        let start = index / 9;
-        let offset = index - start;
+        let start = index % 9;
+        let mut offset = index - start;
 
-        println!("\nUpdating Row {} with {}",index,num);
+        println!("\nConfirming Row @ {} with {}",index,num);
 
         for _i in 0..9 {
-            if self.board[offset + _i].is_known() { continue; }
+            if self.board[offset].is_known() { 
+                offset += 1; 
+                continue; 
+            }
 
-            let state_index = self.board[offset + _i].states().iter().position(|x| *x == num);
+            let state_index = self.board[offset].states().iter().position(|x| *x == num);
+
+            println!("{:?}",state_index);
 
             match state_index {
                 Some(state_index) => {
-                    println!("\nBefore {:?}",self.board[offset + _i].states());
+                    println!("\nIndex: {}",offset);
+                    println!("\nBefore {:?}",self.board[offset].states());
                     println!("State Index: {:?}",state_index);
 
-                    self.board[offset + _i].remove(state_index);
+                    self.board[offset].remove(state_index);
 
-                    println!("After  {:?}",self.board[offset + _i].states());
+                    println!("After  {:?}",self.board[offset].states());
                 },
-                None => continue,
+                None => {
+                    offset += 1;
+                    continue;
+                },
             }
+
+            offset += 1;
         }
     }
     
     fn update_col(&mut self, index: usize, num: u16) {
-        /*
-        for element in self.col(index) {
-            let state_index = element.states().iter().position(|x| *x == num);
+        let start = index / 9;
 
-            if let Some(_i) = state_index {
-                element.remove(state_index.unwrap());
-            } else if element.is_known() {
-                continue;
-            } else {
-                panic!("Specified State cannot be found!");
+        println!("\nConfirming Col @ {} with {}",index,num);
+
+        for _i in 0..9 {
+            let offset = start + (_i * 9);
+
+            if self.board[offset].is_known() { 
+                continue; 
+            }
+
+            let state_index = self.board[offset].states().iter().position(|x| *x == num);
+
+            println!("{:?}",state_index);
+
+            match state_index {
+                Some(state_index) => {
+                    println!("\nIndex: {}",offset);
+                    println!("Before {:?}",self.board[offset].states());
+                    println!("State Index: {:?}",state_index);
+
+                    self.board[offset].remove(state_index);
+
+                    println!("After  {:?}",self.board[offset].states());
+                },
+                None => {
+                    continue;
+                },
             }
         }
-        */
     }
 
     fn update_box(&mut self, index: usize, num: u16) {
-        /*
-        for mut element in self.group(index) {
-            let state_index = element.states().iter().position(|x| *x == num);
+        let x_offset = index % 3;
+        let y_offset = (index / 9) % 3;
 
-            if let Some(_i) = state_index {
-                element.remove(state_index.unwrap());
-            } else if element.is_known() {
-                continue;
-            } else {
-                panic!("Specified State cannot be found!");
+        let mut corner = index - x_offset - (9 * y_offset);
+
+        println!("\nConfirming Box @ {} with {}",index,num);
+
+        for _i in 0..9 {
+            if self.board[corner].is_known() { 
+                if _i % 3 == 2 && _i != 8 { corner += 7; } else { corner += 1; }
+                continue; 
             }
-        }*/
+
+            let state_index = self.board[corner].states().iter().position(|x| *x == num);
+
+            match state_index {
+                Some(state_index) => {
+                    println!("\nIndex: {}",corner);
+                    println!("Before {:?}",self.board[corner].states());
+                    println!("State Index: {:?}",state_index);
+
+                    self.board[corner].remove(state_index);
+
+                    println!("After  {:?}",self.board[corner].states());
+                },
+                None => {
+                    if _i % 3 == 2 && _i != 8 { corner += 7; } else { corner += 1; }
+                    continue;
+                },
+            }
+
+            if _i % 3 == 2 && _i != 8 { corner += 7; } else { corner += 1; }
+        }
     }
 
 }
