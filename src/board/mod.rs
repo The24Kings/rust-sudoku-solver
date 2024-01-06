@@ -159,29 +159,27 @@ impl Board {
     }
 
     fn update_row(&mut self, index: usize, num: u16) {
-        let length = self.row(index).len();
         println!("\nUpdating Row {} with {}",index,num);
 
-        for _j in 0..length {
-            if self.row(index)[_j].is_known() {
+        for _i in 0..9 {
+            if self.row(index)[_i].is_known() {
                 println!("\nKnown");
                 continue;
             }
-            
-            let state_index = self.row(index)[_j].states().iter().position(|x| *x == num);
 
-            if let Some(_i) = state_index {
-                println!("\nBefore {:?}",self.row(index)[_j].states());
-                self.row(index)[_j].states().remove(state_index.unwrap());
+            let state_index = self.row(index)[_i].states().iter().position(|x| *x == num);
 
-            } else {
-                panic!("Specified State cannot be found!");
+            match state_index {
+                Some(state_index) => {
+                    println!("\nBefore {:?}",self.row(index)[_i].states());
+                    println!("State Index: {:?}",state_index);
 
+                    self.row(index)[_i].states().remove(state_index); // TODO: Fix; Not updating the actual State
+
+                    println!("After  {:?}",self.row(index)[_i].states());
+                },
+                None => continue,
             }
-
-            println!("State Index: {:?}",state_index);
-
-            println!("After  {:?}",self.row(index)[_j].states());
         }
     }
     
