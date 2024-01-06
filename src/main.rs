@@ -49,6 +49,10 @@ fn main() {
 
     println!("{}",game);
 
+    game.solve();
+
+    println!("{}",game);
+
     // Testing
 /*
     let mut board = Board::new();

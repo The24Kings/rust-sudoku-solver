@@ -26,7 +26,6 @@ impl State {
         self.known
     }
  
-
     pub fn len(&self) -> usize {
         self.states.len()
     }

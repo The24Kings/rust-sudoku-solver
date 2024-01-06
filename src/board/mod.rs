@@ -24,11 +24,19 @@ impl Board {
         }
     }
 
-    pub fn Solve(game: Board) -> Solution { 
+    pub fn solve(&mut self) -> Solution { 
         loop {
             // Check cells with only 1 State
             for _i in 0..81 {
+                let state = self.cell(_i);
 
+                if state.is_known() { continue; }
+
+                if state.len() != 1 { continue; }
+
+                println!("Confirming {} at {}",state.active(),_i);
+
+                self.confirm(_i, state.states()[0]);
             }
 
             break; // Testing
@@ -52,32 +60,37 @@ impl Board {
     pub fn cell(&self, index: usize) -> &State {
         &self.board[index]
     }
-    
-    pub fn mut_cell(&mut self, index: usize) -> &mut State {
-        &mut self.board[index]
-    }
 
     pub fn confirm(&mut self, index: usize, num: u16) {
         self.board[index] = State {
-            states: vec!(),
+            states: Vec::new(),
             active: num,
             known: true,
-        }
+        };
+
+        self.propagate_states(index, num);
     }
-/*    
-    pub fn confirm(&mut self, index: usize,  num: u16) {
-        self.board[index].states = vec!();
-        self.board[index].active = num;
-        self.board[index].known = true;
-    }
-*/
 
     pub fn activate(&mut self, index: usize, num: u16) {
         self.board[index].active = num;
     }
+    
+    pub fn check(&self, num: u16, index: usize) -> bool {
+        self.check_row(num, index) && self.check_col(num, index) && self.check_box(num, index)
+    }
+
+    pub fn propagate_states(&mut self, index: usize, num: u16) {
+        self.update_row(index, num);
+        self.update_col(index, num);
+        self.update_box(index, num);
+    }
+
+    pub fn is_known(&self, index: usize) -> bool {
+        self.board[index].known
+    }
 
     fn row(&self, index: usize) -> Vec<State> {
-        let start = index % 9;
+        let start = index / 9;
         let end = start + 9;
 
         self.board[start..end].to_vec()
@@ -86,7 +99,7 @@ impl Board {
     fn col(&self, index: usize) -> Vec<&State> {
         let start = index / 9;
 
-        let mut output: Vec<&State> = vec!();
+        let mut output: Vec<&State> = Vec::new();
 
         for _i in 0..9 {
             output.push(&self.board[start + (_i * 9)]);
@@ -96,39 +109,23 @@ impl Board {
     }
 
     fn group(&self, index: usize) -> Vec<&State> {
-        let mut output: Vec<&State> = vec!();
+        let mut output: Vec<&State> = Vec::new();
         let x_offset = index % 3;
         let y_offset = (index / 9) % 3;
-        
-        println!("X Offset: {}",x_offset);
-        println!("Y Offset: {}",y_offset);
 
-        // Panics
-        let mut corner = index - x_offset - y_offset;
-
-        println!("Corner @ {}",corner);
+        let mut corner = index - x_offset - (9 * y_offset);
 
         for _i in 0..9 {
-            if _i / 3 == 0 && _i != 0 {
-                corner += 9;
-            }
-
             output.push(&self.board[corner]);
-            
-            corner += 1;
 
-            println!("Loop: {}",_i);
+            if _i % 3 == 2 && _i != 8 {
+                corner += 7;
+            } else {
+                corner += 1;
+            }
         }
 
         output
-    }
-
-    pub fn is_known(&self, index: usize) -> bool {
-        self.board[index].known
-    }
-
-    pub fn check(&self, num: u16, index: usize) -> bool {
-        self.check_row(num, index) && self.check_col(num, index) && self.check_box(num, index)
     }
 
     fn check_row(&self, num: u16, index: usize) -> bool {
@@ -138,7 +135,6 @@ impl Board {
             }
         }
         
-        println!("Row Success.");
         true
     }
 
@@ -149,7 +145,6 @@ impl Board {
             }
         }
         
-        println!("Col Success.");
         true 
     }
 
@@ -160,26 +155,65 @@ impl Board {
             }
         } 
         
-        println!("Box Success.");
         true
     }
 
-    pub fn propagate(&mut self, index: usize, num: u16) {
-        self.update_row(index, num);
-        self.update_col(index, num);
-        self.update_box(index, num);
-    }
-
     fn update_row(&mut self, index: usize, num: u16) {
- 
+        let length = self.row(index).len();
+        println!("\nUpdating Row {} with {}",index,num);
+
+        for _j in 0..length {
+            if self.row(index)[_j].is_known() {
+                println!("\nKnown");
+                continue;
+            }
+            
+            let state_index = self.row(index)[_j].states().iter().position(|x| *x == num);
+
+            if let Some(_i) = state_index {
+                println!("\nBefore {:?}",self.row(index)[_j].states());
+                self.row(index)[_j].states().remove(state_index.unwrap());
+
+            } else {
+                panic!("Specified State cannot be found!");
+
+            }
+
+            println!("State Index: {:?}",state_index);
+
+            println!("After  {:?}",self.row(index)[_j].states());
+        }
     }
     
     fn update_col(&mut self, index: usize, num: u16) {
+        /*
+        for element in self.col(index) {
+            let state_index = element.states().iter().position(|x| *x == num);
 
+            if let Some(_i) = state_index {
+                element.remove(state_index.unwrap());
+            } else if element.is_known() {
+                continue;
+            } else {
+                panic!("Specified State cannot be found!");
+            }
+        }
+        */
     }
 
     fn update_box(&mut self, index: usize, num: u16) {
+        /*
+        for mut element in self.group(index) {
+            let state_index = element.states().iter().position(|x| *x == num);
 
+            if let Some(_i) = state_index {
+                element.remove(state_index.unwrap());
+            } else if element.is_known() {
+                continue;
+            } else {
+                panic!("Specified State cannot be found!");
+            }
+        }*/
     }
 
 }
