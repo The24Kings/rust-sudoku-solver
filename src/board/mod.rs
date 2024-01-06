@@ -159,24 +159,24 @@ impl Board {
     }
 
     fn update_row(&mut self, index: usize, num: u16) {
+        let start = index / 9;
+        let offset = index - start;
+
         println!("\nUpdating Row {} with {}",index,num);
 
         for _i in 0..9 {
-            if self.row(index)[_i].is_known() {
-                println!("\nKnown");
-                continue;
-            }
+            if self.board[offset + _i].is_known() { continue; }
 
-            let state_index = self.row(index)[_i].states().iter().position(|x| *x == num);
+            let state_index = self.board[offset + _i].states().iter().position(|x| *x == num);
 
             match state_index {
                 Some(state_index) => {
-                    println!("\nBefore {:?}",self.row(index)[_i].states());
+                    println!("\nBefore {:?}",self.board[offset + _i].states());
                     println!("State Index: {:?}",state_index);
 
-                    self.row(index)[_i].states().remove(state_index); // TODO: Fix; Not updating the actual State
+                    self.board[offset + _i].remove(state_index);
 
-                    println!("After  {:?}",self.row(index)[_i].states());
+                    println!("After  {:?}",self.board[offset + _i].states());
                 },
                 None => continue,
             }
