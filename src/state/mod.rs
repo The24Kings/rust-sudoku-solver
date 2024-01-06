@@ -33,12 +33,6 @@ impl State {
     pub fn activate(&mut self, num: u16) {
         self.active = num;
     }
-    
-    pub fn confirm(&mut self, num: u16) {
-        self.states = vec!();
-        self.active = num;
-        self.known = true;
-    }
 
     pub fn remove(&mut self, index: usize) -> u16 {
         self.states.remove(index)
