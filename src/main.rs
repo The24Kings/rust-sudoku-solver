@@ -43,7 +43,11 @@ fn main() {
     game.confirm(78, 5);
     game.confirm(80, 9);
 
-    println!("{}",game.check(35, 5));
+    if game.check(35, 5) {
+        game.activate(35, 5);
+    }
+
+    println!("{}",game);
 
     // Testing
 /*

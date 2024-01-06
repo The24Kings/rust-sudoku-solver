@@ -1,6 +1,11 @@
 use crate::state::State;
 use std::fmt;
 
+pub enum Solution {
+    Solved,
+    UnSolvable,
+}
+
 #[derive(Debug, Clone)]
 pub struct Board {
     pub board: Vec<State>,
@@ -17,6 +22,19 @@ impl Board {
         Board {
             board: new_board,
         }
+    }
+
+    pub fn Solve(game: Board) -> Solution { 
+        loop {
+            // Check cells with only 1 State
+            for _i in 0..81 {
+
+            }
+
+            break; // Testing
+        }
+        
+        Solution::Solved
     }
 /*
     pub fn coords(index: usize) -> [u16;2] {
@@ -153,8 +171,7 @@ impl Board {
     }
 
     fn update_row(&mut self, index: usize, num: u16) {
-
-    
+ 
     }
     
     fn update_col(&mut self, index: usize, num: u16) {
@@ -169,7 +186,31 @@ impl Board {
 
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        //todo
+        let mut output = String::new();
+
+        for _i in 0..81 {
+            let input = &self.board[_i].active().to_string();
+
+            if _i % 27 == 0 && _i != 0 { output.push_str("- - - | - - - | - - -\n"); }
+
+            if input == "0" {
+                output.push_str("~ ");
+            } else {
+                output.push_str(input);
+                output.push_str(" ");
+            }
+
+            if _i == 0 && _i / 9 == 0 { continue; }
+
+            if _i % 9 == 8 { 
+                output.push_str("\n"); 
+                continue; 
+            }
+
+            if _i % 3 == 2 { output.push_str("| "); }
+        }
+
+        write!(f, "{}", output)
     }
 }
 
